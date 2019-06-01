@@ -1,0 +1,74 @@
+version: '3'
+
+services:
+
+### Workspace Utilities Container ###########################
+
+    workspace:
+        image: rpopuc/workspace:7.2
+        volumes:
+            - ./src:/var/www
+        tty: true
+
+### PHP-FPM Container #######################################
+
+    php-fpm:
+        image: rpopuc/php-fpm:7.2
+        volumes:
+            - ./src:/var/www
+            - ./config/php-fpm/php.ini:/usr/local/etc/php/php.ini
+        # expose:
+        #     - "9000"
+        depends_on:
+            - workspace
+
+### Nginx Server Container ##################################
+
+    nginx:
+        image: rpopuc/nginx:alpine
+        volumes:
+            - ./src:/var/www
+            - ./logs/nginx:/var/log/nginx
+            - ./config/nginx/sites:/etc/nginx/sites-available
+        ports:
+            - "80:80"
+            - "443:443"
+        # environment:
+        #     - VIRTUAL_HOST_URL=${APP_URL}
+        #     - VIRTUAL_HOST_HTTPS=true
+        depends_on:
+            - php-fpm
+
+### PostgreSQL Container ####################################
+
+    postgres:
+        image: rpopuc/postgres:10
+        volumes:
+            - ./data/postgres:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_DB=${POSTGRES_DB}
+            - POSTGRES_USER=${POSTGRES_DB}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
+### Redis Container #########################################
+
+    redis:
+        image: rpopuc/redis:4-alpine
+        volumes:
+            - ./data/redis:/data
+
+### Laravel Echo Server #######################################
+
+    laravel-echo:
+        image: rpopuc/laravel-echo-server:7.2
+        volumes:
+            - ./config/laravel-echo/laravel-echo-server.json:/app/laravel-echo-server.json:ro
+        ports:
+            - "6001:6001"
+        # environment:
+        #     - VIRTUAL_HOST_URL=echo.${APP_URL}
+        #     - VIRTUAL_HOST_HTTPS=true
+        #     - VIRTUAL_HOST_FORCE_HTTPS=false
+        #     - VIRTUAL_HOST_PORT=6001
+        links:
+            - redis

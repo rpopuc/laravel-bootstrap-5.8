@@ -1,0 +1,51 @@
+#!/bin/bash
+cd "$(dirname "$0")/.."
+
+repo=`git remote get-url origin`
+if [[ $repo == *"laravel-bootstrap-5.8"* ]]; then
+    echo 'Reseting git...'
+    rm -rf .git
+    git init
+    echo '...done'
+fi
+
+if [ ! -f docker-compose.local.yml ]; then
+    echo 'Creating docker composer file...'
+    cp docker-compose.example.yml docker-compose.local.yml
+    ln -s docker-compose.local.yml docker-compose.yml
+    echo '...done'
+fi
+
+if [ ! -f env.local ]; then
+    echo 'Creating docker config file...'
+    cp .env.example .env.local
+    ln -s .env.local .env
+    echo '...done'
+fi
+
+if [ ! -f src/env.local ]; then
+    echo 'Creating Laravel config file...'
+    cd src
+    cp .env.example .env.local
+    ln -s .env.local .env
+    key=`php -r "print str_replace('/', '\/', 'base64:'.base64_encode(random_bytes(32)));"`
+    regex='s/APP_KEY=.*/APP_KEY='$key'/'
+    sed -i $regex .env
+    cd ..
+    echo '...done'
+fi
+
+if [ ! -f src/env.testing.local ]; then
+    echo 'Creating PHPUnit config file...'
+    cd src
+    cp .env.testing.example .env.testing.local
+    ln -s .env.testing.local .env.testing
+    cd ..
+    echo '...done'
+fi
+
+if [ ! -f .gitignore ]; then
+    echo 'Creating git ignore config file...'
+    cp .gitignore.example .gitignore
+    echo '...done'
+fi

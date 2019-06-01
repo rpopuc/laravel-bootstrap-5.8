@@ -1,0 +1,27 @@
+# Local configurations
+.env.local
+docker-compose.local.yml
+src/.env.local
+
+# Configuration
+.env
+docker-compose.yml
+src/.env
+src/.env.testing
+
+# Node dependencies
+src/node_modules
+src/npm-debug.log
+src/yarn-error.log
+
+# Composer dependencies
+src/vendor
+
+# Laravel
+src/public/hot
+src/public/storage
+src/storage/*.key
+src/.phpunit.result.cache
+src/Homestead.json
+src/Homestead.yaml
+src/bin
