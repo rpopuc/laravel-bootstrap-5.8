@@ -2,6 +2,7 @@
 .env.local
 docker-compose.local.yml
 src/.env.local
+src/.env.testing.local
 
 # Configuration
 .env
