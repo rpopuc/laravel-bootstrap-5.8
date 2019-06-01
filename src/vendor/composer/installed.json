@@ -757,6 +757,50 @@
         "description": "Highlight PHP code in terminal"
     },
     {
+        "name": "laravel-frontend-presets/tailwindcss",
+        "version": "1.0.0",
+        "version_normalized": "1.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/laravel-frontend-presets/tailwindcss.git",
+            "reference": "4f95576e53f18d2a132d533a4b4553880484fffb"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/laravel-frontend-presets/tailwindcss/zipball/4f95576e53f18d2a132d533a4b4553880484fffb",
+            "reference": "4f95576e53f18d2a132d533a4b4553880484fffb",
+            "shasum": ""
+        },
+        "require": {
+            "laravel/framework": "^5.5"
+        },
+        "time": "2019-05-14T10:59:30+00:00",
+        "type": "library",
+        "extra": {
+            "laravel": {
+                "providers": [
+                    "LaravelFrontendPresets\\TailwindCssPreset\\TailwindCssPresetServiceProvider"
+                ]
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "LaravelFrontendPresets\\TailwindCssPreset\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "description": "Laravel frontend preset for Tailwind CSS",
+        "keywords": [
+            "laravel",
+            "preset",
+            "tailwindcss"
+        ]
+    },
+    {
         "name": "laravel/framework",
         "version": "v5.8.19",
         "version_normalized": "5.8.19.0",
