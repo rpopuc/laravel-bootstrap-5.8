@@ -11,6 +11,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
+        \App\User::truncate();
         \App\User::create([
             'name' => env('LOCAL_USER_NAME', 'Laravel'),
             'email' => env('LOCAL_USER_EMAIL', 'laravel@laravel.com'),
