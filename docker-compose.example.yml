@@ -30,12 +30,12 @@ services:
             - ./src:/var/www
             - ./logs/nginx:/var/log/nginx
             - ./config/nginx/sites:/etc/nginx/sites-available
-        ports:
-            - "80:80"
-            - "443:443"
-        # environment:
-        #     - VIRTUAL_HOST_URL=${APP_URL}
-        #     - VIRTUAL_HOST_HTTPS=true
+        # ports:
+        #     - "80:80"
+        #     - "443:443"
+        environment:
+            - VIRTUAL_HOST_URL=${APP_URL}
+            - VIRTUAL_HOST_HTTPS=${APP_HTTPS}
         depends_on:
             - php-fpm
 
@@ -62,13 +62,14 @@ services:
     laravel-echo:
         image: rpopuc/laravel-echo-server:7.2
         volumes:
-            - ./config/laravel-echo/laravel-echo-server.json:/app/laravel-echo-server.json:ro
-        ports:
-            - "6001:6001"
-        # environment:
-        #     - VIRTUAL_HOST_URL=echo.${APP_URL}
-        #     - VIRTUAL_HOST_HTTPS=true
-        #     - VIRTUAL_HOST_FORCE_HTTPS=false
-        #     - VIRTUAL_HOST_PORT=6001
+            - ./config/laravel-echo/laravel-echo-server.json:/usr/app/src/laravel-echo-server.json:ro
+        # ports:
+        #     - "6001:6001"
+        environment:
+            - VIRTUAL_HOST_URL=${APP_URL}
+            - VIRTUAL_HOST_HTTPS=${APP_HTTPS}
+            - VIRTUAL_HOST_FORCE_HTTPS=false
+            - VIRTUAL_HOST_PORT=6001
+            - VIRTUAL_HOST_PATH=/ws/
         links:
             - redis
