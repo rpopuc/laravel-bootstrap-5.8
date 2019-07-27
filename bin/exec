@@ -3,4 +3,5 @@ source ./bin/_setup
 
 source ./bin/_dotenv
 
-docker-compose exec $1 bash
+params=$@
+docker-compose exec $params
